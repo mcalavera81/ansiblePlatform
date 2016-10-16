@@ -3,4 +3,5 @@
   become: true
   roles:
   - mrlesmithjr.oracle-java8
-   
+  - tecris.maven   
+  - geerlingguy.git 
