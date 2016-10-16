@@ -1,7 +1,18 @@
 ---
 - hosts: all
   become: true
+  vars:
+     packages: [ 'vim', 'git', 'curl' ]
   roles:
-  - mrlesmithjr.oracle-java8
-  - tecris.maven   
-  - geerlingguy.git 
+   - mrlesmithjr.oracle-java8
+   - tecris.maven   
+   - geerlingguy.git 
+   - createdb
+  tasks:
+   - name: Install Package
+     apt: name={{ item }} state=latest
+     with_items:
+     - jq
+     - autossh
+     - mercurial
+     - ansible	
