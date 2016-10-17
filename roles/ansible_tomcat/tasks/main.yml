@@ -1,8 +1,8 @@
 ---
 # tasks file for tomcat
 
-- name: Create tomcat group
-  group: name=tomcat state=present
+#- name: Create tomcat group
+#  group: name=tomcat state=present
 
 - name: Download tomcat
   get_url:
@@ -16,17 +16,17 @@
 - name: Create tomcat symlink
   file: path=/opt/tomcat state=link src=/opt/apache-tomcat-{{ tomcat_version }}
 
-- name: add user "tomcat"
-  user: name=tomcat group=tomcat home=/opt/tomcat createhome=no state=present
-  become: True
-  become_method: sudo
+#- name: add user "tomcat"
+#  user: name=tomcat group=tomcat home=/opt/tomcat createhome=no state=present
+#  become: True
+#  become_method: sudo
 
 - name: Delete temporary tomcat file
   file: path=/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz state=absent
 
-- name: Set tomcat file permissions
-  file: path=/opt/apache-tomcat-{{ tomcat_version }} owner={{ tomcat_user }}
-    group=tomcat recurse=yes
+#- name: Set tomcat file permissions
+#  file: path=/opt/apache-tomcat-{{ tomcat_version }} owner={{ tomcat_user }}
+#    group=tomcat recurse=yes
 
 - name: Configure Tomcat server
   template: src=server.xml dest={{ catalina_home }}/conf/server.xml backup=yes
@@ -42,6 +42,7 @@
 - name: Start tomcat
   command: initctl start tomcat
   become: True
+   
 
 - name: wait for tomcat to start
   wait_for: port={{ http_port }} timeout=60
