@@ -6,9 +6,7 @@
 #   - tecris.maven                                   #Maven
 #   - geerlingguy.git                                #Git 
 #   - createdb                                       #Postgresql
-#   - ansible-tomcat                                 #ansible-tomcat
-#   - bas-ansible-roles-collection.tomcat8           #tomcat8
-    - sprylab.tomcat-ubuntu
+    - ansible-tomcat
   tasks:
    - name: Install Package
      apt: name={{ item }} state=latest
