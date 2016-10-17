@@ -7,7 +7,8 @@
 #   - geerlingguy.git                                #Git 
 #   - createdb                                       #Postgresql
 #   - ansible-tomcat                                 #ansible-tomcat
-    - bas-ansible-roles-collection.tomcat8           #tomcat8
+#   - bas-ansible-roles-collection.tomcat8           #tomcat8
+    - sprylab.tomcat-ubuntu
   tasks:
    - name: Install Package
      apt: name={{ item }} state=latest
