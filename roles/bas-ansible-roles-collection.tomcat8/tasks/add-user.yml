@@ -1,0 +1,16 @@
+---
+# Create a non-privileged user for tomcat
+
+- name: ensure group for managing tomcat exists
+  group:
+     name=tomcat
+    state=present
+
+- name: ensure non-privileged user exists for tomcat
+  user:
+          name=tomcat
+         group=tomcat
+       comment='non-privileged user for tomcat'
+    createhome=no
+         shell=/bin/nologin
+         state=present

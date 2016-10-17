@@ -1,18 +1,20 @@
 ---
 - hosts: all
   become: true
-  vars:
-     packages: [ 'vim', 'git', 'curl' ]
   roles:
-   - mrlesmithjr.oracle-java8
-   - tecris.maven   
-   - geerlingguy.git 
-   - createdb
+    - mrlesmithjr.oracle-java8                       #Java
+#   - tecris.maven                                   #Maven
+#   - geerlingguy.git                                #Git 
+#   - createdb                                       #Postgresql
+#   - ansible-tomcat                                 #ansible-tomcat
+    - bas-ansible-roles-collection.tomcat8           #tomcat8
   tasks:
    - name: Install Package
      apt: name={{ item }} state=latest
      with_items:
-     - jq
-     - autossh
-     - mercurial
-     - ansible	
+      - jq                            #jq
+#     - autossh                       #autossh
+#     - mercurial                     #mercurial               
+#     - ansible	                     #ansible
+
+    

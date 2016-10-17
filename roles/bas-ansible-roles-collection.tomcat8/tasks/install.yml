@@ -1,0 +1,29 @@
+---
+# Downloads and install Tomcat 8
+
+# Tomcat 8 can only be installed from non-system-sources only for currently supported operating systems
+
+- name: determine if tomcat is installed
+  stat: path=/opt/tomcat8
+  changed_when: false
+  register: tomcat8_fact_tomcat_is_installed
+
+- name: download tomcat 8 archive
+  get_url:
+          url="{{ tomcat8_binary_download_url }}"
+         dest=/tmp/tomcat.tar.gz
+  when: tomcat8_fact_tomcat_is_installed.stat.exists == false
+
+- name: ensure tomcat 8 installation directory exists
+  file:
+     path=/opt/tomcat8
+    state=directory
+
+- name: extract tomcat from installation archive
+  command: tar xf /tmp/tomcat.tar.gz -C /opt/tomcat8 --strip-components=1
+    creates=/opt/tomcat8/LICENSE
+
+- name: clean up tomcat download
+  file:
+     path=/tmp/tomcat.tar.gz
+    state=absent
