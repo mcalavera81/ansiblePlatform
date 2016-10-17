@@ -6,12 +6,13 @@
 #   - tecris.maven                                   #Maven
 #   - geerlingguy.git                                #Git 
 #   - createdb                                       #Postgresql
-    - ansible-tomcat
+#   - ansible-tomcat
   tasks:
    - name: Install Package
      apt: name={{ item }} state=latest
      with_items:
       - jq                            #jq
+      - tomcat7
 #     - autossh                       #autossh
 #     - mercurial                     #mercurial               
 #     - ansible	                     #ansible
