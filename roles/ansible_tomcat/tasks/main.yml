@@ -1,0 +1,48 @@
+---
+# tasks file for tomcat
+
+- name: Create tomcat group
+  group: name=tomcat state=present
+
+- name: Download tomcat
+  get_url:
+    url: http://archive.apache.org/dist/tomcat/tomcat-{{ tomcat_version | first }}/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz 
+    dest: /tmp/apache-tomcat-{{ tomcat_version }}.tar.gz
+
+- name: Extract tomcat
+  shell: tar xzf /tmp/apache-tomcat-{{ tomcat_version }}.tar.gz 
+    chdir=/opt
+
+- name: Create tomcat symlink
+  file: path=/opt/tomcat state=link src=/opt/apache-tomcat-{{ tomcat_version }}
+
+- name: add user "tomcat"
+  user: name=tomcat group=tomcat home=/opt/tomcat createhome=no state=present
+  become: True
+  become_method: sudo
+
+- name: Delete temporary tomcat file
+  file: path=/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz state=absent
+
+- name: Set tomcat file permissions
+  file: path=/opt/apache-tomcat-{{ tomcat_version }} owner={{ tomcat_user }}
+    group=tomcat recurse=yes
+
+- name: Configure Tomcat server
+  template: src=server.xml dest={{ catalina_home }}/conf/server.xml backup=yes
+
+- name: Configure Tomcat users
+  template: src=tomcat-users.xml dest={{ catalina_home }}/conf/
+
+- name: Configure Tomcat service
+  template: src=tomcat.conf  dest=/etc/init/tomcat.conf
+  notify:
+  - reload upstart
+
+- name: Start tomcat
+  command: initctl start tomcat
+  become: True
+
+- name: wait for tomcat to start
+  wait_for: port={{ http_port }} timeout=60
+

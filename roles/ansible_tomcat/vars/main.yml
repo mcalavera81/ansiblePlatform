@@ -1,0 +1,19 @@
+---
+# vars file for tomcat
+
+# Install variables
+tomcat_version: '8.5.6' 
+http_port: 8080
+https_port: 8443
+
+# Environment variables
+java_home: /opt/{{ jdk_or_jre }}1.{{ java_version|replace('u','.0_') }} # Use when installing jdk
+jre_home: /opt/{{ jdk_or_jre }}1.{{ java_version|replace('u','.0_') }}/jre # Use when installing jre only
+catalina_base: /opt/apache-tomcat-{{ tomcat_version }}
+catalina_home: /opt/apache-tomcat-{{ tomcat_version }}
+catalina_tempdir: /opt/apache-tomcat-{{ tomcat_version }}/temp
+
+# User management
+tomcat_user: tomcat
+manager_user: manager-gui
+manager_password: managersecret

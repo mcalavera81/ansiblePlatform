@@ -1,0 +1,12 @@
+---
+- name: reload upstart
+  become: True
+  become_method: sudo
+  command: initctl reload-configuration
+  #command: systemctl daemon-reload
+
+- name: start tomcat
+  become: True
+  become_method: sudo
+  command: initctl start tomcat
+  #command: systemctl start tomcat.service

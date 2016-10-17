@@ -6,7 +6,7 @@
 #   - tecris.maven                                   #Maven
 #   - geerlingguy.git                                #Git 
 #   - createdb                                       #Postgresql
-    - ansible-tomcat
+    - ansible_tomcat
   tasks:
    - name: Install Package
      apt: name={{ item }} state=latest
