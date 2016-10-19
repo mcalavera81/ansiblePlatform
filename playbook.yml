@@ -2,18 +2,30 @@
 - hosts: all
   become: true
   roles:
-    - mrlesmithjr.oracle-java8                       #Java
-#   - tecris.maven                                   #Maven
-#   - geerlingguy.git                                #Git 
+#   - mrlesmithjr.oracle-java8                       #Java
 #   - createdb                                       #Postgresql
-    - ansible_tomcat
+#   - ansible_tomcat
   tasks:
    - name: Install Package
-     apt: name={{ item }} state=latest
+     apt: name={{ item }} state=latest update_cache=yes
      with_items:
-      - jq                            #jq
+#     - jq                            #jq
 #     - autossh                       #autossh
-#     - mercurial                     #mercurial               
+     - mercurial                     #mercurial               
 #     - ansible	                     #ansible
+#     - maven
+     - git    
 
-    
+#  - name: send key to remote deploy user
+#     copy: src=files/private_key dest=~/{{deploy_user}}/.ssh/priv_key
+
+   - name: Add user Private Key
+     copy: 
+       src: "~/.ssh/id_rsa"
+       dest: "~/.ssh/id_rsa"
+       mode: 0600
+
+   - name: Git checkout
+     git: repo=git@bitbucket.org:fonhivr/component-tester.git
+          dest=/home/vagrant/code
+          accept_hostkey=yes
